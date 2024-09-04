@@ -37,9 +37,10 @@
 
 package org.jfree.data.jdbc;
 
-import java.sql.Connection;
+
+//import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
+//import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -70,7 +71,7 @@ public class JDBCCategoryDataset extends DefaultCategoryDataset {
     static final long serialVersionUID = -3080395327918844965L;
 
     /** The database connection. */
-    private transient Connection connection;
+    private transient ConnectionLite connection;
 
     /**
      * A flag the controls whether or not the table is transposed.  The default
@@ -99,7 +100,7 @@ public class JDBCCategoryDataset extends DefaultCategoryDataset {
         throws ClassNotFoundException, SQLException {
 
         Class.forName(driverName);
-        this.connection = DriverManager.getConnection(url, user, passwd);
+        this.connection = new ConnectionLite(url);
     }
 
     /**
@@ -107,7 +108,7 @@ public class JDBCCategoryDataset extends DefaultCategoryDataset {
      *
      * @param connection  the database connection.
      */
-    public JDBCCategoryDataset(Connection connection) {
+    public JDBCCategoryDataset(ConnectionLite connection) {
         if (connection == null) {
             throw new NullPointerException("A connection must be supplied.");
         }
@@ -123,7 +124,7 @@ public class JDBCCategoryDataset extends DefaultCategoryDataset {
      *
      * @throws SQLException if there is a problem executing the query.
      */
-    public JDBCCategoryDataset(Connection connection, String query)
+    public JDBCCategoryDataset(ConnectionLite connection, String query)
         throws SQLException {
         this(connection);
         executeQuery(query);
@@ -178,7 +179,7 @@ public class JDBCCategoryDataset extends DefaultCategoryDataset {
      *
      * @throws SQLException if there is a problem executing the query.
      */
-    public void executeQuery(Connection con, String query) throws SQLException {
+    public void executeQuery(ConnectionLite con, String query) throws SQLException {
 
         Statement statement = null;
         ResultSet resultSet = null;

@@ -37,8 +37,8 @@
 
 package org.jfree.data.jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+//import java.sql.Connection;
+//import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -62,7 +62,7 @@ public class JDBCPieDataset extends DefaultPieDataset {
     static final long serialVersionUID = -8753216855496746108L;
 
     /** The database connection. */
-    private transient Connection connection;
+    private transient ConnectionLite connection;
 
     /**
      * Creates a new JDBCPieDataset and establishes a new database connection.
@@ -83,7 +83,7 @@ public class JDBCPieDataset extends DefaultPieDataset {
         throws SQLException, ClassNotFoundException {
 
         Class.forName(driverName);
-        this.connection = DriverManager.getConnection(url, user, password);
+        this.connection = new ConnectionLite(url);
     }
 
     /**
@@ -93,7 +93,7 @@ public class JDBCPieDataset extends DefaultPieDataset {
      *
      * @param con  the database connection.
      */
-    public JDBCPieDataset(Connection con) {
+    public JDBCPieDataset(ConnectionLite con) {
         if (con == null) {
             throw new NullPointerException("A connection must be supplied.");
         }
@@ -111,7 +111,7 @@ public class JDBCPieDataset extends DefaultPieDataset {
      *
      * @throws SQLException if there is a problem executing the query.
      */
-    public JDBCPieDataset(Connection con, String query) throws SQLException {
+    public JDBCPieDataset(ConnectionLite con, String query) throws SQLException {
         this(con);
         executeQuery(query);
     }
@@ -143,7 +143,7 @@ public class JDBCPieDataset extends DefaultPieDataset {
      *
      * @throws SQLException if there is a problem executing the query.
      */
-    public void executeQuery(Connection con, String query) throws SQLException {
+    public void executeQuery(ConnectionLite con, String query) throws SQLException {
 
         Statement statement = null;
         ResultSet resultSet = null;

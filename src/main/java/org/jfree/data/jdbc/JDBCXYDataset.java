@@ -37,8 +37,8 @@
 
 package org.jfree.data.jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+//import java.sql.Connection;
+//import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -67,7 +67,7 @@ public class JDBCXYDataset extends AbstractXYDataset
         implements XYDataset, TableXYDataset, RangeInfo {
 
     /** The database connection. */
-    private transient Connection connection;
+    private transient ConnectionLite connection;
 
     /** Column names. */
     private String[] columnNames = {};
@@ -112,7 +112,7 @@ public class JDBCXYDataset extends AbstractXYDataset
 
         this();
         Class.forName(driverName);
-        this.connection = DriverManager.getConnection(url, user, password);
+        this.connection = new ConnectionLite(url);
     }
 
     /**
@@ -123,7 +123,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      *
      * @throws SQLException if there is a problem connecting to the database.
      */
-    public JDBCXYDataset(Connection con) throws SQLException {
+    public JDBCXYDataset(ConnectionLite con) throws SQLException {
         this();
         this.connection = con;
     }
@@ -137,7 +137,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      *
      * @throws SQLException if there is a problem executing the query.
      */
-    public JDBCXYDataset(Connection con, String query) throws SQLException {
+    public JDBCXYDataset(ConnectionLite con, String query) throws SQLException {
         this(con);
         executeQuery(query);
     }
@@ -191,7 +191,7 @@ public class JDBCXYDataset extends AbstractXYDataset
      *
      * @throws SQLException if there is a problem executing the query.
      */
-    public void executeQuery(Connection con, String query)
+    public void executeQuery(ConnectionLite con, String query)
         throws SQLException {
 
         if (con == null) {

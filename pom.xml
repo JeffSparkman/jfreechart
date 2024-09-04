@@ -8,7 +8,7 @@
 
     <name>JFreeChart</name>
 
-    <artifactId>jfreechart</artifactId>
+    <artifactId>jfreechart-lite</artifactId>
     <groupId>org.jfree</groupId>
     <version>1.5.5</version>
     <packaging>jar</packaging>
