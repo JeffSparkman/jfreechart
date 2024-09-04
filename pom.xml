@@ -52,12 +52,12 @@
     </licenses>
 
     <dependencies>
-        <dependency>
+        <!-- dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -113,6 +113,9 @@
                     <encoding>${project.build.sourceEncoding}</encoding>                
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
+                    <excludes>
+                        <exclude>org/jfree/chart/servlet/**</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
 
@@ -165,6 +168,24 @@
                 <version>3.1.2</version>
             </plugin>
 
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-source-plugin</artifactId>
+              <version>3.0.0</version>
+              <configuration>
+                  <excludes>
+                      <exclude>org/jfree/chart/servlet/**</exclude>
+                  </excludes>
+              </configuration>
+              <executions>
+                  <execution>
+                      <id>attach-sources</id>
+                      <goals>
+                          <goal>jar</goal>
+                      </goals>
+                  </execution>
+              </executions>
+            </plugin>
         </plugins>
     </build>
 
